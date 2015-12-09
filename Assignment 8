@@ -1,0 +1,206 @@
+//this is a timed sketch
+PImage racecar;
+boolean keyPressState = false;
+int sequence = 0;
+
+
+Timer myTimer;
+
+Movement newMovement;
+void setup(){
+  size(800, 600);
+  background(150);
+    newMovement = new Movement();
+  racecar = loadImage("racing car.jpg");
+  myTimer =new Timer(500);
+}
+
+//draw border
+
+void draw(){
+  
+    newMovement.update();
+  newMovement.display();
+  
+  if (keyPressState == false){
+    
+    
+  //first state text (start menu)
+  background(150);
+  
+  fill(500, 0, 0);
+  rectMode(CENTER);
+  rect(385, height/2, 400, 200);
+  fill(0, 0, 0);
+  textSize(60);
+  text("Racing time!", 207, 300);
+  
+  textSize(30);
+  text("press the Q key", 280, 340);
+  
+  }
+  
+  //state border
+  
+  if(keyPressState == true){
+    
+    
+    background(126, 212, 250);
+    textSize(50);
+    
+    myTimer.start();
+    
+    
+    if(sequence == 0){
+
+          text("3", 50, 100);
+    }
+    
+    
+
+    text("3", 50, 100);
+    text("2", 80, 100);
+    text("1", 110, 100);
+    text("go", 150, 100);
+    
+    image(racecar, newMovement.centerX, height/2, 90, 50);
+
+  }
+}
+
+
+void keyPressed(){
+  
+  if (key == 'q'){
+    keyPressState = !keyPressState;
+  }
+    newMovement.keyPressed();
+}
+
+
+//NEW TAB
+
+
+//moving function
+//class carmoving{
+  //int carX = 200;
+  
+  //void keyPressed(){
+    
+    
+    //if(key == 'a'){
+      //carX-5;
+    //}
+    //if(key == 'd'){
+     //carX+5;
+    //}
+  //}
+
+//}
+
+
+//---------------------------------------------------------------
+
+class Movement{
+  int centerX, offset1, offset2, offsetX1, offsetX2, r1, r2, r3;
+  boolean keys[];    // In this array, the index corresponds with W,S,A,D.
+  
+  int xVelocity;
+  
+  // constructor
+  Movement(){
+    centerX = 50;  // car starting position
+    
+    offset1 = -20;
+    offset2 = +20;
+    offsetX1 = -20;
+    offsetX2 = + 20;
+    r1 = 40;
+    r2 = 20;
+    r3 = 15;
+    keys = new boolean [4];
+  }
+  
+  void display(){  // creates a car. 
+    //??????????????
+    //??????????????
+  }
+  
+  void update(){
+    
+    if(keys[2]){
+      xVelocity = -5;
+    }
+    if(keys[3]){
+      xVelocity = 5;
+    }
+    if(!keys[2] && !keys[3]){ // if both Left and Right are released, horizontal velocity should be zero.
+      xVelocity = 0;
+      //println("no left or right");
+    }
+    
+    centerX += xVelocity;
+    
+  }
+  
+  void keyPressed(){
+    
+    if(key == 'a'){
+      keys[2] = true;
+    }
+    if(key == 'd'){
+      keys[3] = true;
+    } 
+  }
+  
+  void keyReleased(){ // the 
+    
+    if(key == 'a'){
+      keys[2] = false;
+    }
+    if(key == 'd'){
+      keys[3] = false;
+    } 
+  }   
+}
+
+
+
+
+
+void keyReleased(){
+  newMovement.keyReleased(); // the global keyReleased function calls the Movement class keyReleased method.
+} 
+
+//______________________________________________________
+
+
+//NEW TAB
+
+
+class Timer{
+  int savedTime;  // When Timer started
+  int totalTime;  // How long Timer should last
+  
+  // The constructor, set how long the Timer last with integer value
+  Timer(int _totalTime){
+    totalTime = _totalTime;
+  }
+  
+  // Start the Timer
+  void start() {
+    savedTime = millis();
+  }
+  
+  boolean isFinished() {
+   // check how much time has passed
+   int passedTime = millis() - savedTime;
+   if (passedTime > totalTime) {
+     return true;
+   } else {
+     return false;
+   }
+  }
+}
+  
+  
